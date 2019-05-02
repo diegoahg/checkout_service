@@ -19,7 +19,6 @@ func existID(ID int) bool {
 func CreateBasket() int {
 	var b Basket
 	b.ID = getID()
-	b.Exist = true
 	Checkout = append(Checkout, b)
 	return b.ID
 }
