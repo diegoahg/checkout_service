@@ -49,12 +49,12 @@ func (b *Basket) GetTotal() float64 {
 func (b *Basket) VoucherPromotion() float64 {
 	count := 0
 	for _, element := range b.Items {
-		if element.Name == "VOUCHER" {
+		if element.Code == "VOUCHER" {
 			count++
 		}
 	}
 	hasPromotion := int(count / 2)
-	hasNot := count - hasPromotion
+	hasNot := count - (hasPromotion * 2)
 	totalVocher := (float64(hasPromotion) * codePrice["VOUCHER"]) + (float64(hasNot) * codePrice["VOUCHER"])
 	return totalVocher
 }
@@ -62,7 +62,7 @@ func (b *Basket) VoucherPromotion() float64 {
 func (b *Basket) TshirtPromotion() float64 {
 	count := 0
 	for _, element := range b.Items {
-		if element.Name == "TSHIRT" {
+		if element.Code == "TSHIRT" {
 			count++
 		}
 	}
@@ -77,7 +77,7 @@ func (b *Basket) TshirtPromotion() float64 {
 func (b *Basket) WithoutPromotion() float64 {
 	totalWithoutPromotion := 0.0
 	for _, element := range b.Items {
-		if element.Name != "VOUCHER" && element.Name != "TSHIRT" {
+		if element.Code != "VOUCHER" && element.Code != "TSHIRT" {
 			totalWithoutPromotion += element.Price
 		}
 	}

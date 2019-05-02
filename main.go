@@ -2,20 +2,22 @@ package main
 
 import (
 	"fmt"
-	"net/http"
 
-	"github.com/gorilla/mux"
+	"github.com/diegoahg/checkout_service/app"
 )
 
 func main() {
-	r := mux.NewRouter()
-	r.HandleFunc("/books/{title}/page/{page}", func(w http.ResponseWriter, r *http.Request) {
-		vars := mux.Vars(r)
-		title := vars["title"]
-		page := vars["page"]
-
-		fmt.Fprintf(w, "You've requested the book: %s on page %s\n", title, page)
-	})
-
-	http.ListenAndServe(":80", r)
+	id := app.CreateBasket()
+	app.AddProduct(id, "VOUCHER")
+	app.AddProduct(id, "VOUCHER")
+	app.AddProduct(id, "VOUCHER")
+	app.AddProduct(id, "VOUCHER")
+	app.AddProduct(id, "TSHIRT")
+	app.AddProduct(id, "TSHIRT")
+	app.AddProduct(id, "TSHIRT")
+	app.AddProduct(id, "TSHIRT")
+	app.AddProduct(id, "MUG")
+	amount := app.GetAmount(id)
+	samount := fmt.Sprintf("%.2f", amount)
+	println("output: " + string(samount))
 }
