@@ -43,6 +43,7 @@ func (b *Basket) GetTotal() float64 {
 	total += b.VoucherPromotion()
 	total += b.TshirtPromotion()
 	total += b.WithoutPromotion()
+	b.Total = total
 	return total
 }
 

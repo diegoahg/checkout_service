@@ -1,44 +1,62 @@
 package app
 
+import (
+	"fmt"
+	"sync"
+)
+
 var Checkout []Basket
 var IDS = 0
+var wg sync.WaitGroup
 
-func getID() int {
-	return IDS + 1
+func CreateBasket() Basket {
+	var b Basket
+	wg.Add(1)
+	go func() {
+		defer wg.Done()
+		IDS++
+	}()
+	wg.Wait()
+	b.ID = IDS
+	Checkout = append(Checkout, b)
+	return b
 }
 
-func existID(ID int) bool {
-	for _, c := range Checkout {
-		if c.ID == ID {
-			return true
+func AddProduct(ID int, code string) error {
+	for i, element := range Checkout {
+		var item Item
+		item.FillItem(code)
+		if element.ID == ID {
+			Checkout[i].Items = append(Checkout[i].Items, item)
+			return nil
 		}
 	}
-	return false
+	return fmt.Errorf("Basket does not exist")
 }
 
-func CreateBasket() int {
-	var b Basket
-	b.ID = getID()
-	Checkout = append(Checkout, b)
-	return b.ID
-}
-
-func AddProduct(ID int, code string) string {
-	if !existID(ID) {
-		return "Basket does not exist"
+func GetAmount(ID int) (float64, error) {
+	for _, element := range Checkout {
+		if element.ID == ID {
+			return element.GetTotal(), nil
+		}
 	}
-	var i Item
-	i.FillItem(code)
-	Checkout[ID-1].Items = append(Checkout[ID-1].Items, i)
-	return "Item added to basket" + string(ID)
+	GetBaskets()
+	return 0.0, fmt.Errorf("Basket does not exist")
 }
 
-func GetAmount(ID int) float64 {
-	return Checkout[ID-1].GetTotal()
+func RemoveBasket(ID int) error {
+	for i, element := range Checkout {
+		if element.ID == ID {
+			Checkout = append(Checkout[:i], Checkout[i+1:]...)
+			return nil
+		}
+	}
+	GetBaskets()
+	return fmt.Errorf("Basket does not exist")
 }
 
-func RemoveBasket(ID int) string {
-	i := ID - 1
-	Checkout = append(Checkout[:i], Checkout[i+1:]...)
-	return "Basket was removed"
+func GetBaskets() {
+	for _, c := range Checkout {
+		fmt.Printf("%#v\n", c)
+	}
 }
