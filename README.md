@@ -36,8 +36,8 @@ go get github.com/stretchr/testify/assert
 # Use aplication
 
 # Run Tests
+In the "app" folder run
 ```
-in the app folder
 go test -cover -v
 ```
 
