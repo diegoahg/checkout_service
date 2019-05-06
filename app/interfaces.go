@@ -7,24 +7,28 @@ import (
 	"net/http"
 )
 
-// ProductInput  takes incoming JSON payload for writing heart rate
+// ProductInput takes incoming JSON payload for writing heart rate
 type ProductInput struct {
 	BasketID int    `json:"busket_id"`
 	Code     string `json:"code"`
 }
 
+// BasketInput takes incoming JSON payload for writing heart rate
 type BasketInput struct {
 	BasketID int `json:"busket_id"`
 }
 
+// ResponseMessage takes incoming JSON payload for writing heart rate
 type ResponseMessage struct {
 	Message string `json:"message"`
 }
 
+// ResponseAmount takes incoming JSON payload for writing heart rate
 type ResponseAmount struct {
 	Amount float64 `json:"amont"`
 }
 
+// toJSONResponse convert a struct to Json Response
 func toJSONResponse(w http.ResponseWriter, r *http.Request, code int, payload interface{}) {
 	response, err := json.MarshalIndent(payload, "", "  ")
 	if err != nil {
@@ -36,7 +40,7 @@ func toJSONResponse(w http.ResponseWriter, r *http.Request, code int, payload in
 	w.Write(response)
 }
 
-// CreateBasketHandler
+// CreateBasketHandler is in charge to trigger a new Basket
 func CreateBasketHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("CreateBasketHandler actived")
 	b := CreateBasket()
@@ -44,7 +48,7 @@ func CreateBasketHandler(w http.ResponseWriter, r *http.Request) {
 	toJSONResponse(w, r, http.StatusCreated, b)
 }
 
-// PostBlockHandler takes JSON payload as an input for heart rate (Car)
+// AddProductHandler is in charge to add a new Product in a Basket
 func AddProductHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("AddProductHandler actived")
 	var input ProductInput
@@ -67,6 +71,7 @@ func AddProductHandler(w http.ResponseWriter, r *http.Request) {
 	toJSONResponse(w, r, http.StatusCreated, response)
 }
 
+// GetAmountHandler is in charge to return the total of the Basket
 func GetAmountHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("GetAmountHandler actived")
 	var input BasketInput
@@ -90,6 +95,7 @@ func GetAmountHandler(w http.ResponseWriter, r *http.Request) {
 	toJSONResponse(w, r, http.StatusCreated, response)
 }
 
+// RemoveBasketHandler is in charge to remove a Basket
 func RemoveBasketHandler(w http.ResponseWriter, r *http.Request) {
 	log.Println("RemoveBasketHandler actived")
 	var input BasketInput

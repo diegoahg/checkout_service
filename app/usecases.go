@@ -5,10 +5,15 @@ import (
 	"sync"
 )
 
+// Checkout is a array of Basket, it's trying to be the repo of Baskets
 var Checkout []Basket
+
+// IDS is use to give ID to Baskets
 var IDS = 0
+
 var wg sync.WaitGroup
 
+// CreateBasket create a new Basket with a new ID
 func CreateBasket() Basket {
 	var b Basket
 	wg.Add(1)
@@ -22,6 +27,7 @@ func CreateBasket() Basket {
 	return b
 }
 
+// AddProduct add product to Basket
 func AddProduct(ID int, code string) error {
 	for i, element := range Checkout {
 		var item Item
@@ -34,6 +40,7 @@ func AddProduct(ID int, code string) error {
 	return fmt.Errorf("Basket does not exist")
 }
 
+// GetAmount returns the total amount of Basket
 func GetAmount(ID int) (float64, error) {
 	for _, element := range Checkout {
 		if element.ID == ID {
@@ -44,6 +51,7 @@ func GetAmount(ID int) (float64, error) {
 	return 0.0, fmt.Errorf("Basket does not exist")
 }
 
+// RemoveBasket remove a Basket by ID
 func RemoveBasket(ID int) error {
 	for i, element := range Checkout {
 		if element.ID == ID {
@@ -55,6 +63,7 @@ func RemoveBasket(ID int) error {
 	return fmt.Errorf("Basket does not exist")
 }
 
+// GetBaskets prints all of Baskets
 func GetBaskets() {
 	for _, c := range Checkout {
 		fmt.Printf("%#v\n", c)

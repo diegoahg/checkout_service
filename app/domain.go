@@ -26,18 +26,20 @@ type Basket struct {
 	Total float64
 }
 
+// FillItem fills a new item
 func (i *Item) FillItem(code string) {
 	i.Code = code
 	i.Name = codeName[code]
 	i.Price = codePrice[code]
 }
 
-// AddItem add other item into de checkout
+// AddItem adds other item into de checkout
 func (b *Basket) AddItem(item Item) {
 	b.Items = append(b.Items, item)
 	b.Total = b.GetTotal()
 }
 
+// GetTotal returns the total with promotions
 func (b *Basket) GetTotal() float64 {
 	total := 0.0
 	total += b.VoucherPromotion()
@@ -47,6 +49,7 @@ func (b *Basket) GetTotal() float64 {
 	return total
 }
 
+// VoucherPromotion returns promotion value about VOUCHER
 func (b *Basket) VoucherPromotion() float64 {
 	count := 0
 	for _, element := range b.Items {
@@ -60,6 +63,7 @@ func (b *Basket) VoucherPromotion() float64 {
 	return totalVocher
 }
 
+// TshirtPromotion returns promotion value about TSHIRT
 func (b *Basket) TshirtPromotion() float64 {
 	count := 0
 	for _, element := range b.Items {
@@ -68,13 +72,14 @@ func (b *Basket) TshirtPromotion() float64 {
 		}
 	}
 	price := codePrice["TSHIRT"]
-	if count > 3 {
+	if count >= 3 {
 		price = 19.00
 	}
 	totalTshirt := (float64(count) * price)
 	return totalTshirt
 }
 
+// WithoutPromotion returns value of product witout promotion
 func (b *Basket) WithoutPromotion() float64 {
 	totalWithoutPromotion := 0.0
 	for _, element := range b.Items {
