@@ -26,9 +26,9 @@ In this Api you can:
 
 # Before to start
 
-Install go dependences
-    - [Testify] (https://github.com/stretchr/testify)
-    - [Gorilla Mux] (https://github.com/gorilla/mux)
+Install go dependences:
+- [Testify] (https://github.com/stretchr/testify)
+- [Gorilla Mux] (https://github.com/gorilla/mux)
 
 ```
 go get github.com/gorilla/mux
