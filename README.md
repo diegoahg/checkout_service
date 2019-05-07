@@ -35,7 +35,90 @@ go get github.com/gorilla/mux
 go get github.com/stretchr/testify/assert
 ```
 
+ENV VARS:
+HOST: localhost
+PORT: 8080
+
+Note: you can modify host and port in main.go
+
 # Use aplication
+Run
+```
+ go run main.go
+```
+
+## GET /api/create-basket
+Create a new Basket
+
+Without Request
+
+Response example:
+json
+```
+{
+  "ID": 1,
+  "Items": null,
+  "Total": 0
+}
+```
+
+## POST /api/add-product
+Add product to a basket
+
+Request example:
+json
+```
+{
+	"busket_id": 1,
+	"code": "VOUCHER"
+}
+```
+
+Response example:
+json
+```
+{
+  "message": "Product successfully added"
+}
+```
+
+## POST /api/get-amount
+Get amount of basket
+
+Request example:
+json
+```
+{
+	"busket_id": 1
+}
+```
+
+Response example:
+json
+```
+{
+  "amont": 5
+}
+```
+
+## POST /api/get-amount
+Remove a basket
+
+Request example:
+json
+```
+{
+	"busket_id": 1
+}
+```
+
+Response example:
+json
+```
+{
+  "message": "Basket successfully removed"
+}
+```
 
 # Run Tests
 In the "app" folder run
